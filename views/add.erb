@@ -1,0 +1,36 @@
+<h1>Add User</h1>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="bg-info col-sm-12">
+      <% if user.is_valid? %>
+      <p class="text-info col-sm-6 col-sm-offset-3 text-center">Please make sure to enter all the data is entered correctly.</p>
+      <% end %>
+    </div>
+    <form method=post>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input value="<%= user.username %>" type="text" class="form-control" name=username id="username" placeholder="Username">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input value="<%= user.email %>" type="email" class="form-control" name=email id="exampleInputEmail1" placeholder="Email">
+      </div>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input value="<%= user.name %>" class="form-control" name=name id="name" placeholder="Name">
+      </div>
+      <div class="form-group">
+        <label for="sex">Sex</label>
+        <div class="checkbox">
+          <label><input <%= 'checked' if user.sex == 'f' %> name=sex type="radio" id="sex" name=sex value="f"> Female</label>
+          <label><input <%= 'checked' if user.sex == 'm' %> name=sex type="radio" id="sex" name=sex value="m"> Male</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" name=password id="exampleInputPassword1" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+</div>
