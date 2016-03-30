@@ -24,7 +24,7 @@ class User
     end
   end
 
-  def is_valid?
+  def valid?
     @username = clean(@username)
     @name = clean(@name)
     @email = clean(@email)
@@ -49,7 +49,7 @@ get '/' do
 end
 
 get '/delete/:id' do |id|
-  conn = PG.connect( dbname: 'cs522' )
+  conn = PG.connect(dbname: 'cs522')
   erb :delete, locals: {
     result: conn.exec_params('delete from users where id = $1::int', [id])
   }
@@ -69,13 +69,13 @@ post '/add' do
   session[:user].password = params['password']
   session[:user].sex = params['sex']
 
-  redirect to('/add') if session[:user].is_valid?
+  redirect to('/add') if session[:user].valid?
 
   p 'user is valid!'
 
   # if user valid
   conn = PG.connect(dbname: 'cs522')
-  conn.exec_params('insert into users values (DEFAULT, $1::text, $2::text, $3::text, $4::char, $5::text)',
+  conn.exec_params('insert into users values (nextval(\'users_id_seq\'), $1::text, $2::text, $3::text, $4::char, $5::text)',
     session[:user].to_ary)
 
   session[:user] = nil
