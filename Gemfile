@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-gem 'pg', '~> 0.18.4'
-gem 'sinatra', '~> 1.4', '>= 1.4.7'
+gem 'pg', '~> 0.21.0'
+gem 'sinatra', '~> 2.0'

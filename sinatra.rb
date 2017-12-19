@@ -33,7 +33,11 @@ class User
 
     @sex = @sex == 'm' ? 'm' : 'f'
 
-    not to_ary.select { |e| e.empty? }.empty?
+    @email.include? '@' and not has_empty_values?
+  end
+
+  def has_empty_values?
+    to_ary.any? { |e| e.empty? }
   end
 
   def to_ary
@@ -41,7 +45,12 @@ class User
   end
 end
 
+class UserNull < User
+end
+
 get '/' do
+  session[:user] = nil
+  
   conn = PG.connect(dbname: 'cs522')
   erb :index, locals: {
     users: conn.exec('SELECT * FROM users')
@@ -56,7 +65,7 @@ get '/delete/:id' do |id|
 end
 
 get '/add' do
-  session[:user] ||= User.new
+  session[:user] ||= UserNull.new
   p session[:user].inspect
   erb :add, locals: { user: session[:user] }
 end
@@ -69,7 +78,7 @@ post '/add' do
   session[:user].password = params['password']
   session[:user].sex = params['sex']
 
-  redirect to('/add') if session[:user].valid?
+  redirect to('/add') if not session[:user].valid?
 
   p 'user is valid!'
 
