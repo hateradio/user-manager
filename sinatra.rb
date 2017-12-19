@@ -33,10 +33,10 @@ class User
 
     @sex = @sex == 'm' ? 'm' : 'f'
 
-    @email.include? '@' and not has_empty_values?
+    @email.include? '@' and not empty_values?
   end
 
-  def has_empty_values?
+  def empty_values?
     to_ary.any? { |e| e.empty? }
   end
 
